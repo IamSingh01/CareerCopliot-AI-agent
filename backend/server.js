@@ -87,21 +87,21 @@ app.post('/api/chat', async (req, res) => {
 
     const reply = completion.choices[0]?.message?.content || "I'm sorry, I couldn't process that. Please try again.";
 
-    res.json({ 
+    res.json({
       message: reply,
-      usage: completion.usage 
+      usage: completion.usage
     });
 
   } catch (error) {
     console.error('Groq API error:', error);
-    
+
     if (error.status === 401) {
       return res.status(401).json({ error: 'Invalid API key. Please check your GROQ_API_KEY.' });
     }
     if (error.status === 429) {
       return res.status(429).json({ error: 'Rate limit reached. Please try again in a moment.' });
     }
-    
+
     res.status(500).json({ error: 'Something went wrong. Please try again.' });
   }
 });
@@ -112,5 +112,5 @@ app.get('/api/health', (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`✅ REcruit Bot backend running on http://localhost:${PORT}`);
+  console.log(`✅ Alex Bot backend running on port ${PORT}`); `);
 });
