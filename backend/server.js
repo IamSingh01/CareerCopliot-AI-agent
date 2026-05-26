@@ -111,6 +111,7 @@ app.get('/api/health', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
+
 app.listen(PORT, () => {
-  console.log(`✅ Alex Bot backend running on port ${PORT}`); `);
+  console.log(`✅ Alex Bot backend running on port ${PORT}`);
 });
