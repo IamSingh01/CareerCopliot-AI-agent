@@ -1,4 +1,4 @@
-# REcruit AI Sales Bot — Full Stack
+# AI Sales Bot — Full Stack
 
 A premium recruitment website + AI sales chatbot powered by Groq (LLaMA 3.3 70B).
 
@@ -7,7 +7,7 @@ A premium recruitment website + AI sales chatbot powered by Groq (LLaMA 3.3 70B)
 ## 🗂 Project Structure
 
 ```
-recruit-bot/
+Recruite-bot/
 ├── backend/
 │   ├── server.js         # Express + Groq API server
 │   ├── package.json
@@ -51,38 +51,13 @@ npx serve .
 
 ---
 
-## 🌐 Deploying to Production
-
-### Backend (Railway / Render / Fly.io)
-
-1. Push `backend/` to a GitHub repo
-2. Connect to Railway or Render
-3. Set environment variable: `GROQ_API_KEY=your_key_here`
-4. Deploy — get your URL (e.g. `https://recruit-bot.railway.app`)
-
-### Frontend
-
-In `frontend/index.html`, update line:
-```javascript
-const API_URL = 'http://localhost:3001/api/chat';
-// Change to:
-const API_URL = 'https://your-backend-url.railway.app/api/chat';
-```
-
-Then host `frontend/index.html` on:
-- **Netlify**: drag & drop the file
-- **Vercel**: `vercel deploy`
-- **GitHub Pages**: push to repo
-
----
-
 ## 🤖 Bot Personality
 
 The bot is **Alex**, a dual-function AI agent:
 - **For Employers**: Persuasive sales consultant focused on ROI, speed, and quality
 - **For Candidates**: Friendly career advisor (service is 100% free to candidates)
 
-Key business rule: **REcruit only charges employers, never candidates.**
+Key business rule: **Recruite only charges employers, never candidates.**
 
 Model: `llama-3.3-70b-versatile` via Groq (extremely fast inference)
 
