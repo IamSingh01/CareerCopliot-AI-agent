@@ -13,7 +13,7 @@ function formatText(text) {
     .replace(/\n/g, '<br/>')
 }
 
-function ChatBot({ isOpen, onClose }) {
+function ChatBot({ isOpen, onClose, isDayMode, onToggleDayMode }) {
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
@@ -45,7 +45,7 @@ function ChatBot({ isOpen, onClose }) {
       setIsTyping(true)
       setTimeout(() => {
         setIsTyping(false)
-        const greeting = "Hello! I'm Alex, your REcruit consultant. 👋\n\nAre you an **employer** looking to hire top talent, or a **candidate** exploring new opportunities?\n\nEither way, I'm here to help — and remember, our service is always free for candidates!"
+        const greeting = "Hello! I'm CareerCopilot, your RecruitME consultant. 👋\n\nAre you an **employer** looking to hire top talent, or a **candidate** exploring new opportunities?\n\nEither way, I'm here to help — and remember, our service is always free for candidates!"
         setMessages([{ role: 'assistant', content: greeting }])
         setShowQuickReplies(false)
       }, 1200)
@@ -81,7 +81,7 @@ function ChatBot({ isOpen, onClose }) {
       setIsTyping(false)
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: "I'm having a little trouble connecting right now. Please email us directly at **contact@recruit-dubai.com** or call **+971 4 400 0000** — we'd love to help! 🙏"
+        content: "I'm having a little trouble connecting right now. Please email us directly at **contact@recruitME-dubai.com** or call **+971 4 400 0000** — we'd love to help! 🙏"
       }])
     }
   }
@@ -101,11 +101,20 @@ function ChatBot({ isOpen, onClose }) {
         <div className="chat-header">
           <div className="chat-avatar">A</div>
           <div className="chat-header-info">
-            <div className="chat-header-name">Alex — REcruit AI</div>
+            <div className="chat-header-name">CareerCopilot — RecruitME AI</div>
             <div className="chat-header-status">● Online now</div>
           </div>
+          <button className="chat-header-day-toggle" onClick={onToggleDayMode} aria-label="Toggle day mode">
+            {isDayMode ? '☀️' : '🌙'}
+          </button>
           <button className="chat-close" onClick={onClose}>✕</button>
         </div>
+
+        {isOpen && (
+          <div className="data-stream" aria-hidden="true">
+            <div className="data-stream-bar" />
+          </div>
+        )}
 
         <div className="chat-messages">
           {messages.length === 0 && !isTyping && (
@@ -113,7 +122,7 @@ function ChatBot({ isOpen, onClose }) {
               <div className="msg-wrapper bot">
                 <div className="msg-avatar-sm">A</div>
                 <div className="bubble bot">
-                  Press <strong>Ctrl+Shift+C</strong> or click the chat button anytime to start a conversation with Alex!
+                  Press <strong>Ctrl+Shift+C</strong> or click the chat button anytime to start a conversation with CareerCopilot!
                 </div>
               </div>
             </div>
@@ -163,7 +172,7 @@ function ChatBot({ isOpen, onClose }) {
               </svg>
             </button>
           </div>
-          <div className="chat-footer-note">Powered by REcruit AI · Groq LLaMA 3.3</div>
+          <div className="chat-footer-note">Powered by RecruitME AI · Groq LLaMA 3.3</div>
         </div>
       </div>
     </>
