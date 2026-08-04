@@ -83,7 +83,7 @@ Model: `llama-3.3-70b-versatile` via Groq (extremely fast inference)
 ### Change company name / email / phone
 Search and replace in `index.html`:
 - `RecruitME` → Your company name
-- `contact@RecruitMEME-dubai.com` → Your email
+- `contact@RecruitME-dubai.com` → Your email
 - `+971 4 400 0000` → Your number
 
 ### Change bot behavior
