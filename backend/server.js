@@ -73,6 +73,11 @@ app.post('/api/chat', async (req, res) => {
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({ error: 'Invalid messages format' });
     }
+console.log("SYSTEM PROMPT:");
+console.log(SYSTEM_PROMPT);
+
+console.log("MESSAGES:");
+console.log(JSON.stringify(messages, null, 2));
 
     const completion = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
