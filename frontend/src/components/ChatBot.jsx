@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-const API_URL = 'https://ai-agent-backend-ddni.onrender.com'
+const API_URL = 'https://ai-agent-backend-ddni.onrender.com.'
 
 function escHtml(t) {
   return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
