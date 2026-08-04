@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useLayoutEffect } from 'react'
 
 const API_URL = import.meta.env.VITE_API_URL || '/api/chat'
+const BOT_NAME = 'CareerCopilot'
 
 function escHtml(t) {
   return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -13,17 +14,19 @@ function formatText(text) {
     .replace(/\n/g, '<br/>')
 }
 
-function ChatBot({ isOpen, onClose, isDayMode, onToggleDayMode }) {
+function ChatBot({ isOpen, onClose, isDayMode }) {
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [initialized, setInitialized] = useState(false)
   const [showQuickReplies, setShowQuickReplies] = useState(true)
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
   const messagesRef = useRef([])
+  const hasInitialized = useRef(false)
 
-  messagesRef.current = messages
+  useLayoutEffect(() => {
+    messagesRef.current = messages
+  }, [messages])
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -40,23 +43,24 @@ function ChatBot({ isOpen, onClose, isDayMode, onToggleDayMode }) {
   }, [isOpen])
 
   useEffect(() => {
-    if (isOpen && !initialized) {
-      setInitialized(true)
+    if (isOpen && !hasInitialized.current) {
+      hasInitialized.current = true
       setIsTyping(true)
       setTimeout(() => {
         setIsTyping(false)
-        const greeting = "Hello! I'm CareerCopilot, your RecruitME consultant. 👋\n\nAre you an **employer** looking to hire top talent, or a **candidate** exploring new opportunities?\n\nEither way, I'm here to help — and remember, our service is always free for candidates!"
+        const greeting = "Hello! I'm CareerCopilot, your RecruitME consultant. 👋\n\nAre you an **employer** looking to hire top talent, or a **candidate** exploring new opportunities?\n\nEither way, I'm here to help — our service is always free for candidates!"
         setMessages([{ role: 'assistant', content: greeting }])
-        setShowQuickReplies(false)
       }, 1200)
     }
-  }, [isOpen, initialized])
+  }, [isOpen])
 
   const sendMessage = async (text) => {
     const msg = text || input
     if (!msg.trim() || isTyping) return
 
-    setShowQuickReplies(false)
+    if (showQuickReplies) {
+      setShowQuickReplies(false)
+    }
     const userMsg = { role: 'user', content: msg.trim() }
     setMessages(prev => [...prev, userMsg])
     setInput('')
@@ -108,21 +112,18 @@ function ChatBot({ isOpen, onClose, isDayMode, onToggleDayMode }) {
 
   return (
     <>
-      <div className={`chat-window ${isOpen ? 'open' : ''}`}>
+      <div className={`chat-window ${isOpen ? 'open' : ''} ${isDayMode ? 'day' : ''}`}>
         <div className="chat-header">
-          <div className="chat-avatar">A</div>
+          <div className="chat-avatar">C</div>
           <div className="chat-header-info">
-            <div className="chat-header-name">CareerCopilot — RecruitME AI</div>
-            <div className="chat-header-status">● Online now</div>
+            <div className="chat-header-name">{BOT_NAME}</div>
+            <div className="chat-header-status">● Online</div>
           </div>
-          <button className="chat-header-day-toggle" onClick={onToggleDayMode} aria-label="Toggle day mode">
-            {isDayMode ? '☀️' : '🌙'}
-          </button>
           <button className="chat-close" onClick={onClose}>✕</button>
         </div>
 
         {isOpen && (
-          <div className="data-stream" taria-hidden="true">
+          <div className="data-stream" aria-hidden="true">
             <div className="data-stream-bar" />
           </div>
         )}
@@ -131,27 +132,35 @@ function ChatBot({ isOpen, onClose, isDayMode, onToggleDayMode }) {
           {messages.length === 0 && !isTyping && (
             <div className="welcome-msg">
               <div className="msg-wrapper bot">
-                <div className="msg-avatar-sm">A</div>
+                <div className="msg-avatar-sm">C</div>
                 <div className="bubble bot">
-                  Press <strong>Ctrl+Shift+C</strong> or click the chat button anytime to start a conversation with CareerCopilot!
+                  Press <strong>Ctrl+Shift+C</strong> or click the chat button to start a conversation!
                 </div>
               </div>
             </div>
           )}
-          {messages.map((msg, i) => (
-            <div key={i} className={`msg-wrapper ${msg.role}`}>
-              <div className="msg-avatar-sm">{msg.role === 'assistant' ? 'A' : 'U'}</div>
-              <div
-                className={`bubble ${msg.role}`}
-                dangerouslySetInnerHTML={{ __html: formatText(msg.content) }}
-              />
-            </div>
-          ))}
+          {messages.map((msg, i) => {
+            const bubbleRole = msg.role === 'user' ? 'user' : 'bot'
+            return (
+              <div key={i} className={`msg-wrapper ${bubbleRole}`}>
+                <div className="msg-avatar-sm">{msg.role === 'assistant' ? 'C' : 'U'}</div>
+                <div
+                  className={`bubble ${bubbleRole}`}
+                  dangerouslySetInnerHTML={{ __html: formatText(msg.content) }}
+                />
+              </div>
+            )
+          })}
           {isTyping && (
             <div className="msg-wrapper bot">
-              <div className="msg-avatar-sm">A</div>
+              <div className="msg-avatar-sm">C</div>
               <div className="bubble bot typing-indicator">
-                <div className="dot" /><div className="dot" /><div className="dot" />
+                <div className="typing-visual" aria-hidden="true">
+                  <span className="typing-bar" />
+                  <span className="typing-bar" />
+                  <span className="typing-bar" />
+                </div>
+                <span className="typing-text">Thinking</span>
               </div>
             </div>
           )}
@@ -183,7 +192,6 @@ function ChatBot({ isOpen, onClose, isDayMode, onToggleDayMode }) {
               </svg>
             </button>
           </div>
-          <div className="chat-footer-note">Powered by RecruitME AI · Groq LLaMA 3.3</div>
         </div>
       </div>
     </>
