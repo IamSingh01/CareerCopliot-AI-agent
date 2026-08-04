@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-const API_URL = 'https://ai-agent-backend-ddni.onrender.com/api/chat'
+const API_URL = import.meta.env.VITE_API_URL || '/api/chat'
 
 function escHtml(t) {
   return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -62,28 +62,39 @@ function ChatBot({ isOpen, onClose, isDayMode, onToggleDayMode }) {
     setInput('')
     setIsTyping(true)
 
-    try {
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [...messagesRef.current, userMsg] }),
-      })
+    let lastError = null
 
-      if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.error || 'Server error')
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: [...messagesRef.current, userMsg] }),
+        })
+
+        if (!res.ok) {
+          const errPayload = await res.json().catch(() => ({}))
+          throw new Error(errPayload.error || 'Server error')
+        }
+
+        const data = await res.json()
+        setIsTyping(false)
+        setMessages(prev => [...prev, { role: 'assistant', content: data.message }])
+        return
+      } catch (error) {
+        lastError = error
+        if (attempt === 0) {
+          await new Promise(resolve => setTimeout(resolve, 600))
+        }
       }
-
-      const data = await res.json()
-      setIsTyping(false)
-      setMessages(prev => [...prev, { role: 'assistant', content: data.message }])
-    } catch {
-      setIsTyping(false)
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: "I'm having a little trouble connecting right now. Please email us directly at **contact@recruitme-dubai.com** or call **+971 4 400 0000** — we'd love to help! 🙏"
-      }])
     }
+
+    setIsTyping(false)
+    console.error('Chat request failed:', lastError)
+    setMessages(prev => [...prev, {
+      role: 'assistant',
+      content: "I'm having a little trouble connecting right now. Please email us directly at **contact@recruitme-dubai.com** or call **+971 4 400 0000** — we'd love to help! 🙏"
+    }])
   }
 
   const handleKey = (e) => {
