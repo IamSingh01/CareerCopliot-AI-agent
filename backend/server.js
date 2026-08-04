@@ -107,11 +107,7 @@ app.post('/api/chat', async (req, res) => {
 });
 
 app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    model: 'llama-3.3-70b-versatile',
-    version: 'CareerCopilot v2'
-  });
+  res.json({ status: 'ok', model: 'llama-3.3-70b-versatile' });
 });
 
 const PORT = process.env.PORT || 3001;
