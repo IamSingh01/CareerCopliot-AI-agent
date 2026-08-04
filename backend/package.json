@@ -1,7 +1,7 @@
 {
-  "name": "recruit-bot-backend",
+  "name": "recruitme-bot-backend",
   "version": "1.0.0",
-  "description": "REcruit AI Sales Bot - Backend API",
+  "description": "RecruitME AI Sales Bot - Backend API",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.6.1",
     "express": "^4.18.2",
     "groq-sdk": "^0.7.0"
   },

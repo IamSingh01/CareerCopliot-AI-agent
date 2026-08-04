@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-const API_URL = 'https://ai-agent-backend-ddni.onrender.com.'
+const API_URL = 'https://ai-agent-backend-ddni.onrender.com'
 
 function escHtml(t) {
   return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -81,7 +81,7 @@ function ChatBot({ isOpen, onClose, isDayMode, onToggleDayMode }) {
       setIsTyping(false)
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: "I'm having a little trouble connecting right now. Please email us directly at **contact@recruitME-dubai.com** or call **+971 4 400 0000** — we'd love to help! 🙏"
+        content: "I'm having a little trouble connecting right now. Please email us directly at **contact@recruitme-dubai.com** or call **+971 4 400 0000** — we'd love to help! 🙏"
       }])
     }
   }
@@ -111,7 +111,7 @@ function ChatBot({ isOpen, onClose, isDayMode, onToggleDayMode }) {
         </div>
 
         {isOpen && (
-          <div className="data-stream" aria-hidden="true">
+          <div className="data-stream" taria-hidden="true">
             <div className="data-stream-bar" />
           </div>
         )}

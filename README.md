@@ -7,7 +7,7 @@ A premium recruitment website + AI sales chatbot powered by Groq (LLaMA 3.3 70B)
 ## 🗂 Project Structure
 
 ```
-RecruiteME-bot/
+RecruitME-bot/
 ├── backend/
 │   ├── server.js         # Express + Groq API server
 │   ├── package.json
@@ -53,11 +53,11 @@ npx serve .
 
 ## 🤖 Bot Personality
 
-The bot is **CareerCoplilot**, a dual-function AI agent:
+The bot is **CareerCopilot**, a dual-function AI agent:
 - **For Employers**: Persuasive sales consultant focused on ROI, speed, and quality
 - **For Candidates**: Friendly career advisor (service is 100% free to candidates)
 
-Key business rule: **RecruiteME only charges employers, never candidates.**
+Key business rule: **RecruitME only charges employers, never candidates.**
 
 Model: `llama-3.3-70b-versatile` via Groq (extremely fast inference)
 
@@ -83,7 +83,7 @@ Model: `llama-3.3-70b-versatile` via Groq (extremely fast inference)
 ### Change company name / email / phone
 Search and replace in `index.html`:
 - `RecruitME` → Your company name
-- `contact@RecruitME-dubai.com` → Your email
+- `contact@recruitme-dubai.com` → Your email
 - `+971 4 400 0000` → Your number
 
 ### Change bot behavior

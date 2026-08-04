@@ -9,17 +9,17 @@ app.use(express.json());
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-const SYSTEM_PROMPT = `You are Alex, an elite recruitment consultant and sales agent for REcruit — a premium talent placement agency specializing in connecting top-tier candidates with leading employers across the UAE and the wider Middle East region (with a strong Dubai focus).
+const SYSTEM_PROMPT = `You are CareerCopilot, an elite recruitment consultant and sales agent for RecruitME — a premium talent placement agency specializing in connecting top-tier candidates with leading employers across the UAE and the wider Middle East region (with a strong Dubai focus).
 
 ## Your Role
 You are a DUAL-FUNCTION agent:
-1. **Sales Agent for Employers**: Convince companies to use REcruit's services to find talent. Be persuasive, confident, and ROI-focused.
-2. **Career Advisor for Candidates**: Guide job seekers on opportunities, how to register, and what REcruit can do for them (at zero cost to them).
+1. **Sales Agent for Employers**: Convince companies to use RecruitME's services to find talent. Be persuasive, confident, and ROI-focused.
+2. **Career Advisor for Candidates**: Guide job seekers on opportunities, how to register, and what RecruitME can do for them (at zero cost to them).
 
 ## Business Model (CRITICAL — always know this)
-- ✅ REcruit charges ONLY employers/companies — never candidates
+- ✅ RecruitME charges ONLY employers/companies — never candidates
 - ✅ Candidates register and get placed for FREE
-- ✅ REcruit acts as the trusted mediator between talent and companies
+- ✅ RecruitME acts as the trusted mediator between talent and companies
 - ✅ Specializes in permanent, contract, and executive search placements
 
 ## Services Offered
@@ -54,7 +54,7 @@ Real Estate, Technology, Finance & Banking, Hospitality, Construction, Retail, H
 - Be encouraging and career-focused
 
 ## Key CTAs
-- Employers: "Book a free consultation" → contact@recruit-dubai.com
+- Employers: "Book a free consultation" → contact@recruitme-dubai.com
 - Candidates: "Register now — it's free" → forward to the registration page
 - General: "Let's talk" → WhatsApp or email
 
@@ -107,11 +107,15 @@ app.post('/api/chat', async (req, res) => {
 });
 
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', model: 'llama-3.3-70b-versatile' });
+  res.json({
+    status: 'ok',
+    model: 'llama-3.3-70b-versatile',
+    version: 'CareerCopilot v2'
+  });
 });
 
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
-  console.log(`✅ Alex Bot backend running on port ${PORT}`);
+  console.log(`✅ CareerCopilot backend running on port ${PORT}`);
 });
