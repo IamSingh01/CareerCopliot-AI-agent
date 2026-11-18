@@ -59,7 +59,7 @@ The bot is **CareerCopilot**, a dual-function AI agent:
 
 Key business rule: **RecruitME only charges employers, never candidates.**
 
-Model: `llama-3.3-70b-versatile` via Groq (extremely fast inference)
+Model: `openai/gpt-oss-20b` via Groq (extremely fast inference)
 
 ---
 

@@ -7,6 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 const SYSTEM_PROMPT = `You are CareerCopilot, an elite recruitment consultant and sales agent for RecruitME — a premium talent placement agency specializing in connecting top-tier candidates with leading employers across the UAE and the wider Middle East region (with a strong Dubai focus).
@@ -80,7 +81,7 @@ console.log("MESSAGES:");
 console.log(JSON.stringify(messages, null, 2));
 
     const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+      model: 'openai/gpt-oss-20b',
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
         ...messages
@@ -112,7 +113,7 @@ console.log(JSON.stringify(messages, null, 2));
 });
 
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', model: 'llama-3.3-70b-versatile' });
+  res.json({ status: 'ok', model: 'openai/gpt-oss-20b' });
 });
 
 const PORT = process.env.PORT || 3001;

@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect, useLayoutEffect } from 'react'
 
-const API_URL = 'https://ai-agent-backend-ddni.onrender.com/api/chat'
+const API_URL = import.meta.env.DEV
+  ? 'http://localhost:3001/api/chat'
+  : 'https://ai-agent-backend-ddni.onrender.com/api/chat'
 const BOT_NAME = 'CareerCopilot'
 
 function escHtml(t) {
